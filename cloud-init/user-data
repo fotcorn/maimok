@@ -8,3 +8,6 @@ users:
       - ssh-rsa ...
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
+
+hostname: my-host-name
+manage_etc_hosts: localhost
