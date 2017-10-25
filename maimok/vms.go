@@ -23,7 +23,11 @@ const (
 )
 
 // CreateVM createds a virtual machine
-func CreateVM(name string, ram int, ipAddress string) {
+func CreateVM(name string, ram uint, ipAddress string) string {
+	return "Creating VM"
+	// create storage
+	// create image
+	//conn, err := libvirt.NewConnect("qemu+ssh://sysadmin@10.0.0.200/system")
 
 }
 

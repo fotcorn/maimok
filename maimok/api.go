@@ -17,7 +17,8 @@ func ListVMsHandler(w http.ResponseWriter, r *http.Request) {
 
 // CreateVMHandler handles POST / requests
 func CreateVMHandler(w http.ResponseWriter, r *http.Request) {
-
+	message := CreateVM("myvm", 1024, "10.0.0.108")
+	w.Write([]byte(message))
 }
 
 // Render a VM

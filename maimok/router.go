@@ -12,7 +12,8 @@ func GetRouter() chi.Router {
 
 	r.Route("/vms", func(r chi.Router) {
 		r.Get("/", ListVMsHandler)
-		r.Post("/", CreateVMHandler)
+		r.Get("/create", CreateVMHandler)
+		// r.Post("/", CreateVMHandler)
 	})
 	return r
 }
