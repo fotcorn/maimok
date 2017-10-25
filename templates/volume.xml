@@ -1,0 +1,15 @@
+<volume>
+  <name>{{ .Name }}.img</name>
+  <!-- spare allocation -->
+  <allocation>0</allocation>
+  <!-- 100G capacity -->
+  <capacity unit="M">{{ .Ram }}</capacity>
+  <target>
+    <format type="qcow2"/>
+    <path>/var/lib/virt/images/{{ .Name }}.img</path>
+  </target>
+  <backingStore>
+    <path>{{ .Image }}</path>
+    <format type="qcow2"/>
+  </backingStore>
+</volume>
