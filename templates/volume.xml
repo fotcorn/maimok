@@ -1,5 +1,5 @@
 <volume>
-  <name>{{ .Name }</name>
+  <name>{{ .Name }}</name>
   <allocation>0</allocation>
   <capacity unit="G">{{ .DiskSpaceGB }}</capacity>
   <target>

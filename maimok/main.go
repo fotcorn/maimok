@@ -31,7 +31,7 @@ func Run() {
 	}
 
 	// load templates
-	templates, err := template.ParseFiles("templates/*")
+	templates, err := template.ParseGlob("templates/*")
 	if err != nil {
 		fmt.Printf("Cannot load template files: %s\n", err)
 		code = 1
