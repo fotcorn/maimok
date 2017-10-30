@@ -24,7 +24,7 @@ func LoadConfig() (*Config, error) {
 		return &Config{}, fmt.Errorf("Invalid config parameter: %q", md.Undecoded())
 	}
 	if !md.IsDefined("libvirt_url") {
-		config.LibvirtURL = "qemu://system"
+		config.LibvirtURL = "qemu:///system"
 	}
 	if !md.IsDefined("image") {
 		return &Config{}, fmt.Errorf("\"image\" parameter is required")
