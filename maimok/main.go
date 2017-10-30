@@ -25,7 +25,7 @@ func Run() {
 	// load config file
 	config, err := LoadConfig()
 	if err != nil {
-		fmt.Printf("Cannot load configuration file: %s", err)
+		fmt.Printf("Cannot load configuration file: %s\n", err)
 		code = 1
 		return
 	}
@@ -33,7 +33,7 @@ func Run() {
 	// load templates
 	templates, err := template.ParseFiles("templates/*")
 	if err != nil {
-		fmt.Printf("Cannot load template files: %s", err)
+		fmt.Printf("Cannot load template files: %s\n", err)
 		code = 1
 		return
 	}
@@ -42,7 +42,7 @@ func Run() {
 	connection, err := libvirt.NewConnect(config.LibvirtURL)
 	defer connection.Close()
 	if err != nil {
-		fmt.Printf("Cannot connect to libvirtd with URL %s", config.LibvirtURL)
+		fmt.Printf("Cannot connect to libvirtd with URL %s, %s\n", config.LibvirtURL, err)
 		code = 1
 		return
 	}
