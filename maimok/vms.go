@@ -29,34 +29,33 @@ type CreateVMStruct struct {
 	Name        string
 	RAMMB       uint
 	DiskSpaceGB uint
-	IPAddress   string
 	Image       string
 }
 
 // CreateVM createds a virtual machine
-func CreateVM(state *globalState, createVM CreateVMStruct) {
+func CreateVM(state *globalState, createVM CreateVMStruct) error {
 	// create volume
 	buf := new(bytes.Buffer)
-	err := state.tpl.ExecuteTemplate(buf, "templates/volume.xml", createVM)
-	if err != nil {
-		panic(err)
+	if err := state.tpl.ExecuteTemplate(buf, "templates/volume.xml", createVM); err != nil {
+		return err
 	}
 	storagePool, err := state.conn.LookupStoragePoolByName("default")
 	if err != nil {
-		panic(err)
+		return err
 	}
-	_, err = storagePool.StorageVolCreateXML(buf.String(), 0)
-	if err != nil {
-		panic(err)
+	if _, err = storagePool.StorageVolCreateXML(buf.String(), 0); err != nil {
+		return err
 	}
 
 	// create domain
 	buf = new(bytes.Buffer)
-	err = state.tpl.ExecuteTemplate(buf, "templates/domain.xml", createVM)
-	if err != nil {
-		panic(err)
+	if err = state.tpl.ExecuteTemplate(buf, "templates/domain.xml", createVM); err != nil {
+		return err
 	}
-	_, err = state.conn.DomainCreateXML(buf.String(), libvirt.DOMAIN_NONE)
+	if _, err = state.conn.DomainCreateXML(buf.String(), libvirt.DOMAIN_NONE); err != nil {
+		return err
+	}
+	return nil
 }
 
 // ListVMs returns a list of all virtual machines

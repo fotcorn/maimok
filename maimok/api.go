@@ -21,7 +21,6 @@ func (state *globalState) CreateVMHandler(w http.ResponseWriter, r *http.Request
 		DiskSpaceGB: 100,
 		RAMMB:       1024,
 		Name:        "TestVM",
-		IPAddress:   "10.0.0.109",
 		Image:       "xenial-server-cloudimg-amd64-disk1.img",
 	}
 	CreateVM(state, createVM)
