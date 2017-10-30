@@ -1,6 +1,8 @@
 package maimok
 
 import (
+	"bytes"
+
 	libvirt "github.com/libvirt/libvirt-go"
 )
 
@@ -22,24 +24,44 @@ const (
 	Stopped
 )
 
-// CreateVM createds a virtual machine
-func CreateVM(name string, ram uint, ipAddress string) string {
-	return "Creating VM"
-	// create storage
-	// create image
-	//conn, err := libvirt.NewConnect("qemu+ssh://sysadmin@10.0.0.200/system")
-
+// CreateVMStruct struct for the CreateVM call
+type CreateVMStruct struct {
+	Name        string
+	RAMMB       uint
+	DiskSpaceGB uint
+	IPAddress   string
+	Image       string
 }
 
-// ListVMs test
-func ListVMs() []*VM {
-	conn, err := libvirt.NewConnect("qemu+ssh://sysadmin@10.0.0.200/system")
+// CreateVM createds a virtual machine
+func CreateVM(state *globalState, createVM CreateVMStruct) {
+	// create volume
+	buf := new(bytes.Buffer)
+	err := state.tpl.ExecuteTemplate(buf, "templates/volume.xml", createVM)
 	if err != nil {
-		return nil
+		panic(err)
 	}
-	defer conn.Close()
+	storagePool, err := state.conn.LookupStoragePoolByName("default")
+	if err != nil {
+		panic(err)
+	}
+	_, err = storagePool.StorageVolCreateXML(buf.String(), 0)
+	if err != nil {
+		panic(err)
+	}
 
-	domains, err := conn.ListAllDomains(libvirt.CONNECT_LIST_DOMAINS_ACTIVE)
+	// create domain
+	buf = new(bytes.Buffer)
+	err = state.tpl.ExecuteTemplate(buf, "templates/domain.xml", createVM)
+	if err != nil {
+		panic(err)
+	}
+	_, err = state.conn.DomainCreateXML(buf.String(), libvirt.DOMAIN_NONE)
+}
+
+// ListVMs returns a list of all virtual machines
+func ListVMs(state *globalState) []*VM {
+	domains, err := state.conn.ListAllDomains(libvirt.CONNECT_LIST_DOMAINS_ACTIVE)
 	if err != nil {
 		return nil
 	}

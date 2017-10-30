@@ -6,13 +6,13 @@ import (
 )
 
 // GetRouter returns the router configuration
-func GetRouter() chi.Router {
+func GetRouter(state *globalState) chi.Router {
 	r := chi.NewRouter()
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
 	r.Route("/vms", func(r chi.Router) {
-		r.Get("/", ListVMsHandler)
-		r.Get("/create", CreateVMHandler)
+		r.Get("/", state.ListVMsHandler)
+		r.Get("/create", state.CreateVMHandler)
 		// r.Post("/", CreateVMHandler)
 	})
 	return r

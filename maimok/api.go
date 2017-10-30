@@ -7,18 +7,24 @@ import (
 )
 
 // ListVMsHandler handler
-func ListVMsHandler(w http.ResponseWriter, r *http.Request) {
+func (state *globalState) ListVMsHandler(w http.ResponseWriter, r *http.Request) {
 	list := []render.Renderer{}
-	for _, vm := range ListVMs() {
+	for _, vm := range ListVMs(state) {
 		list = append(list, vm)
 	}
 	render.RenderList(w, r, list)
 }
 
 // CreateVMHandler handles POST / requests
-func CreateVMHandler(w http.ResponseWriter, r *http.Request) {
-	message := CreateVM("myvm", 1024, "10.0.0.108")
-	w.Write([]byte(message))
+func (state *globalState) CreateVMHandler(w http.ResponseWriter, r *http.Request) {
+	createVM := CreateVMStruct{
+		DiskSpaceGB: 100,
+		RAMMB:       1024,
+		Name:        "TestVM",
+		IPAddress:   "10.0.0.109",
+		Image:       "xenial-server-cloudimg-amd64-disk1.img",
+	}
+	CreateVM(state, createVM)
 }
 
 // Render a VM
