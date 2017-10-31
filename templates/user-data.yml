@@ -5,7 +5,7 @@ package_upgrade: true
 users:
   - name: sysadmin
     ssh-authorized-keys:
-      - {{ .SSHKeys}}
+      - {{ .SSHKey}}
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
 

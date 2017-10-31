@@ -1,0 +1,9 @@
+<volume>
+  <name>{{ .Name }}-config.iso</name>
+  <allocation>0</allocation>
+  <capacity unit="M">10</capacity>
+  <target>
+    <format type="raw"/>
+    <path>/var/lib/virt/images/{{ .Name }}-config.iso</path>
+  </target>
+</volume>

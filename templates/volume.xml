@@ -1,10 +1,10 @@
 <volume>
-  <name>{{ .Name }}</name>
+  <name>{{ .Name }}.qcow2</name>
   <allocation>0</allocation>
   <capacity unit="G">{{ .DiskSpaceGB }}</capacity>
   <target>
     <format type="qcow2"/>
-    <path>/var/lib/virt/images/{{ .Name }}.img</path>
+    <path>/var/lib/virt/images/{{ .Name }}.qcow2</path>
   </target>
   <backingStore>
     <path>{{ .Image }}</path>

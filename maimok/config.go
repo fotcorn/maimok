@@ -10,6 +10,7 @@ import (
 type Config struct {
 	LibvirtURL string   `toml:"libvirt_url"`
 	Image      string   `toml:"image"`
+	SSHKey     string   `toml:"ssh_key"`
 	IPRange    []string `toml:"ip_range"`
 }
 
