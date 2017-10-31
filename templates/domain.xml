@@ -1,15 +1,9 @@
 <domain type='kvm' id='2'>
-  <name>101_freenas</name>
+  <name>{{ .Name }}</name>
   <uuid>{{ .ID }}</uuid>
-  <memory unit='KiB'>8192000</memory>
-  <currentMemory unit='KiB'>8192000</currentMemory>
-  <vcpu placement='static'>2</vcpu>
-  <resource>
-    <partition>/machine</partition>
-  </resource>
+  <memory unit='M'>{{ .RAMMB }}</memory>
   <os>
-    <type arch='x86_64' machine='pc-i440fx-xenial'>hvm</type>
-    <bootmenu enable='yes'/>
+    <type arch='x86_64'>hvm</type>
   </os>
   <features>
     <acpi/>
@@ -31,31 +25,16 @@
     <suspend-to-disk enabled='no'/>
   </pm>
   <devices>
-    <emulator>/usr/bin/kvm-spice</emulator>
-    <disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2'/>
-      <source file='/var/lib/libvirt/images/freenas.qcow2'/>
-      <backingStore/>
+    <disk type='volume' device='disk'>
+      <driver name='qemu' type='raw'/>
+      <source pool='default' volume='{{ .Name }}.qcow2'/>
       <target dev='vda' bus='virtio'/>
-      <boot order='1'/>
-      <alias name='virtio-disk0'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x07' function='0x0'/>
     </disk>
-    <disk type='block' device='disk'>
+    <disk type='volume' device='cdrom'>
       <driver name='qemu' type='raw'/>
-      <source dev='/dev/sda'/>
-      <backingStore/>
-      <target dev='vdb' bus='virtio'/>
-      <alias name='virtio-disk1'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x09' function='0x0'/>
-    </disk>
-    <disk type='file' device='cdrom'>
-      <driver name='qemu' type='raw'/>
-      <backingStore/>
+      <source pool='default' volume='{{ .Name }}-config.iso'/>
       <target dev='hda' bus='ide'/>
       <readonly/>
-      <alias name='ide0-0-0'/>
-      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
     <controller type='usb' index='0' model='ich9-ehci1'>
       <alias name='usb'/>
@@ -87,6 +66,7 @@
       <alias name='virtio-serial0'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
     </controller>
+    <!--
     <interface type='bridge'>
       <mac address='52:54:00:f0:1d:b5'/>
       <source bridge='br0'/>
@@ -95,6 +75,7 @@
       <alias name='net0'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
     </interface>
+    -->
     <serial type='pty'>
       <source path='/dev/pts/1'/>
       <target port='0'/>
@@ -135,8 +116,4 @@
       <address type='pci' domain='0x0000' bus='0x00' slot='0x08' function='0x0'/>
     </memballoon>
   </devices>
-  <seclabel type='dynamic' model='apparmor' relabel='yes'>
-    <label>libvirt-b5174978-89db-4d80-8049-d407c14e85c1</label>
-    <imagelabel>libvirt-b5174978-89db-4d80-8049-d407c14e85c1</imagelabel>
-  </seclabel>
 </domain>

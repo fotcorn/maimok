@@ -129,13 +129,13 @@ func CreateVM(state *globalState, createVM CreateVMStruct) error {
 	}
 
 	// create domain
-	/*buf = new(bytes.Buffer)
-	if err = state.tpl.ExecuteTemplate(buf, "templates/domain.xml", createVM); err != nil {
+	buf = new(bytes.Buffer)
+	if err = state.tpl.ExecuteTemplate(buf, "domain.xml", createVM); err != nil {
 		return err
 	}
 	if _, err = state.conn.DomainCreateXML(buf.String(), libvirt.DOMAIN_NONE); err != nil {
 		return err
-	}*/
+	}
 	return nil
 }
 
