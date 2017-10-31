@@ -2,8 +2,10 @@ package maimok
 
 import (
 	"bytes"
+	"crypto/rand"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -38,12 +40,31 @@ type CreateVMStruct struct {
 	DiskSpaceGB uint
 	Image       string
 	SSHKey      string
+	IPAddress   string
+	MACAddress  string
+}
+
+func generateMACAddress() (string, error) {
+	buf := make(net.HardwareAddr, 6)
+	_, err := rand.Read(buf)
+	if err != nil {
+		return "", err
+	}
+	buf[0] = (buf[0] | 2) & 0xfe // Set local bit, ensure unicast address
+	return buf.String(), nil
 }
 
 // CreateVM createds a virtual machine
 func CreateVM(state *globalState, createVM CreateVMStruct) error {
 	createVM.ID = uuid.NewV4().String()
 	createVM.SSHKey = state.config.SSHKey
+	createVM.IPAddress = "10.0.0.109"
+
+	macAddress, err := generateMACAddress()
+	if err != nil {
+		return fmt.Errorf("Cannot generate MAC Address, %s", err)
+	}
+	createVM.MACAddress = macAddress
 
 	// create config iso
 	dir, err := ioutil.TempDir("", "maimok")
