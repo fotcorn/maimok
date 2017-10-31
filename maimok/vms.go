@@ -81,8 +81,8 @@ func CreateVM(state *globalState, createVM CreateVMStruct) error {
 
 	cmd := exec.Command("genisoimage", "-volid", "cidata", "-joliet", "-rock",
 		metaDataFile.Name(), userDataFile.Name(), networkConfigFile.Name())
-	var out bytes.Buffer
-	cmd.Stdout = &out
+	var isoFile bytes.Buffer
+	cmd.Stdout = &isoFile
 	err = cmd.Run()
 	if err != nil {
 		return fmt.Errorf("Generation of iso image failed: %s", err)
@@ -108,7 +108,7 @@ func CreateVM(state *globalState, createVM CreateVMStruct) error {
 		return err
 	}
 	volume.Upload(stream, 0, 0, 0)
-	len, err := stream.Send(buf.Bytes())
+	len, err := stream.Send(isoFile.Bytes())
 	if err != nil {
 		return fmt.Errorf("Could not send config iso image to storage pool: %s", err)
 	}
