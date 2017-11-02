@@ -25,16 +25,20 @@
     <suspend-to-disk enabled='no'/>
   </pm>
   <devices>
-    <disk type='volume' device='disk'>
-      <driver name='qemu' type='raw'/>
-      <source pool='default' volume='{{ .Name }}.qcow2'/>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/var/lib/libvirt/images/{{ .Name }}.qcow2'/>
       <target dev='vda' bus='virtio'/>
+      <boot order='1'/>
     </disk>
-    <disk type='volume' device='cdrom'>
+    <disk type='file' device='cdrom'>
       <driver name='qemu' type='raw'/>
-      <source pool='default' volume='{{ .Name }}-config.iso'/>
+      <source file='/var/lib/libvirt/images/{{ .Name }}-config.iso'/>
+      <backingStore/>
       <target dev='hda' bus='ide'/>
       <readonly/>
+      <alias name='ide0-0-0'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
     <controller type='usb' index='0' model='ich9-ehci1'>
       <alias name='usb'/>
