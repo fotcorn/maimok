@@ -58,7 +58,6 @@ func generateMACAddress() (string, error) {
 func CreateVM(state *globalState, createVM CreateVMStruct) error {
 	createVM.ID = uuid.NewV4().String()
 	createVM.SSHKey = state.config.SSHKey
-	createVM.IPAddress = "10.0.0.109"
 
 	macAddress, err := generateMACAddress()
 	if err != nil {

@@ -31,6 +31,7 @@ func (state *globalState) CreateVMHandler(w http.ResponseWriter, r *http.Request
 		RAMMB:       1024,
 		Name:        "TestVM",
 		Image:       "xenial-server-cloudimg-amd64-disk1.img",
+		IPAddress:   "10.0.0.110",
 	}
 	err := CreateVM(state, createVM)
 	if err != nil {
