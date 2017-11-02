@@ -3,7 +3,7 @@
   <uuid>{{ .ID }}</uuid>
   <memory unit='M'>{{ .RAMMB }}</memory>
   <os>
-    <type arch='x86_64'>hvm</type>
+    <type arch='x86_64' machine='pc'>hvm</type>
   </os>
   <features>
     <acpi/>
@@ -71,9 +71,8 @@
       <source bridge='br0'/>
       <target dev='vnet1'/>
       <model type='virtio'/>
-      <!--<alias name='net0'/>
+      <alias name='net0'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
-      -->
     </interface>
     <serial type='pty'>
       <source path='/dev/pts/1'/>
