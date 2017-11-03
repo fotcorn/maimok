@@ -148,14 +148,21 @@ func CreateVM(state *globalState, createVM CreateVMStruct) error {
 		return err
 	}
 
-	// create domain
+	// define domain
 	buf = new(bytes.Buffer)
 	if err = state.tpl.ExecuteTemplate(buf, "domain.xml", createVM); err != nil {
 		return err
 	}
-	if _, err = state.conn.DomainCreateXML(buf.String(), libvirt.DOMAIN_NONE); err != nil {
-		return err
+	domain, err := state.conn.DomainDefineXML(buf.String())
+	if err != nil {
+		return fmt.Errorf("Failed to define domain: %s", err)
 	}
+
+	// start domain
+	if err = domain.Create(); err != nil {
+		return fmt.Errorf("Failed to start domain: %s", err)
+	}
+
 	return nil
 }
 
