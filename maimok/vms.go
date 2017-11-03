@@ -42,6 +42,8 @@ type CreateVMStruct struct {
 	SSHKey      string
 	IPAddress   string
 	MACAddress  string
+	Gateway     string
+	Netmask     string
 }
 
 func generateMACAddress() (string, error) {
@@ -58,6 +60,8 @@ func generateMACAddress() (string, error) {
 func CreateVM(state *globalState, createVM CreateVMStruct) error {
 	createVM.ID = uuid.NewV4().String()
 	createVM.SSHKey = state.config.SSHKey
+	createVM.Gateway = state.config.Gateway
+	createVM.Netmask = state.config.Netmask
 
 	macAddress, err := generateMACAddress()
 	if err != nil {

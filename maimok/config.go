@@ -8,10 +8,11 @@ import (
 
 // Config is the structure of the config file on disk
 type Config struct {
-	LibvirtURL string   `toml:"libvirt_url"`
-	Image      string   `toml:"image"`
-	SSHKey     string   `toml:"ssh_key"`
-	IPRange    []string `toml:"ip_range"`
+	LibvirtURL string `toml:"libvirt_url"`
+	Image      string `toml:"image"`
+	SSHKey     string `toml:"ssh_key"`
+	Gateway    string `toml:"gateway"`
+	Netmask    string `toml:"netmask"`
 }
 
 // LoadConfig load Config from file
@@ -29,6 +30,12 @@ func LoadConfig() (*Config, error) {
 	}
 	if !md.IsDefined("image") {
 		return &Config{}, fmt.Errorf("\"image\" parameter is required")
+	}
+	if !md.IsDefined("gateway") {
+		return &Config{}, fmt.Errorf("\"gateway\" parameter is required")
+	}
+	if !md.IsDefined("netmask") {
+		return &Config{}, fmt.Errorf("\"netmask\" parameter is required")
 	}
 	return &config, nil
 }
