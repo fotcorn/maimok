@@ -12,8 +12,7 @@ func GetRouter(state *globalState) chi.Router {
 
 	r.Route("/vms", func(r chi.Router) {
 		r.Get("/", state.ListVMsHandler)
-		r.Get("/create", state.CreateVMHandler)
-		// r.Post("/", CreateVMHandler)
+		r.Post("/", state.CreateVMHandler)
 	})
 	return r
 }

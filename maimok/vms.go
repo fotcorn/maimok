@@ -34,16 +34,19 @@ const (
 
 // CreateVMStruct struct for the CreateVM call
 type CreateVMStruct struct {
-	ID          string
+	// Generated
+	ID         string
+	MACAddress string
+	// Provided by API
 	Name        string
 	RAMMB       uint
 	DiskSpaceGB uint
 	Image       string
-	SSHKey      string
 	IPAddress   string
-	MACAddress  string
-	Gateway     string
-	Netmask     string
+	// Set in config file
+	SSHKey  string
+	Gateway string
+	Netmask string
 }
 
 func generateMACAddress() (string, error) {
