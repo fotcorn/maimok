@@ -25,6 +25,7 @@ type createVMRequest struct {
 	DiskSpaceGB uint   `json:"disk_space_gb"`
 	RAMMB       uint   `json:"ram_mb"`
 	Name        string `json:"name"`
+	Hostname    string `json:"hostname"`
 	Image       string `json:"image"`
 	IPAddress   string `json:"ip_address"`
 }
@@ -70,11 +71,16 @@ func (state *globalState) CreateVMHandler(w http.ResponseWriter, r *http.Request
 		validationFailed(w, r, "name field is required")
 		return
 	}
+	if request.Hostname == "" {
+		validationFailed(w, r, "hostname field is required")
+		return
+	}
 
 	createVM := CreateVMStruct{
 		DiskSpaceGB: request.DiskSpaceGB,
 		RAMMB:       request.RAMMB,
 		Name:        request.Name,
+		Hostname:    request.Hostname,
 		Image:       request.Image,
 		IPAddress:   request.IPAddress,
 	}

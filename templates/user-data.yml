@@ -9,5 +9,5 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
 
-hostname: {{ .Name }}
+hostname: {{ .Hostname }}
 manage_etc_hosts: localhost

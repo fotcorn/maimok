@@ -39,6 +39,7 @@ type CreateVMStruct struct {
 	MACAddress string
 	// Provided by API
 	Name        string
+	Hostname    string
 	RAMMB       uint
 	DiskSpaceGB uint
 	Image       string
