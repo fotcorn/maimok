@@ -1,7 +1,7 @@
-package main
+package main // github.com/fotcorn/go-kvm-web/backend
 
 import (
-	"github.com/maimok/backend/maimok"
+	"github.com/fotcorn/go-kvm-web/backend/maimok"
 )
 
 func main() {
