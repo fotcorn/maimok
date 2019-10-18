@@ -176,7 +176,7 @@ func CreateVM(state *globalState, createVM CreateVMStruct) error {
 
 // ListVMs returns a list of all virtual machines
 func ListVMs(state *globalState) []*VM {
-	domains, err := state.conn.ListAllDomains(libvirt.CONNECT_LIST_DOMAINS_ACTIVE)
+	domains, err := state.conn.ListAllDomains(0)
 	if err != nil {
 		return nil
 	}
