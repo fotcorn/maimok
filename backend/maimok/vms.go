@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 
 	libvirt "github.com/libvirt/libvirt-go"
 	uuid "github.com/satori/go.uuid"
@@ -187,5 +188,10 @@ func ListVMs(state *globalState) []*VM {
 
 		vms = append(vms, &VM{ID: id, Name: name, Memory: memory, Running: running})
 	}
+
+	sort.Slice(vms, func(i, j int) bool {
+		return vms[i].Name < vms[j].Name
+	})
+
 	return vms
 }
