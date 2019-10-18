@@ -1,0 +1,20 @@
+# rename to config.toml
+
+# url where libvirt should connect
+# local system
+libvirt_url = "qemu:///system"
+# remote system, must be accessible by ssh key without password
+# libvirt_url = "qemu+ssh://user@host/system"
+
+# base cloud image used for every vm, must be inside the libvirtd image directory
+# default: /var/lib/libvirt/images
+image = "bionic-server-cloudimg-amd64.img"
+
+# ssh public key to be put into authorized_keys of every server
+ssh_key = "..."
+
+# network gateway
+gateway = "192.168.0.1"
+
+# network netmask
+netmask = "255.255.255.0"
