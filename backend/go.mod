@@ -7,3 +7,5 @@ require (
 	github.com/libvirt/libvirt-go v4.7.0+incompatible
 	github.com/satori/go.uuid v1.2.0
 )
+
+go 1.13
