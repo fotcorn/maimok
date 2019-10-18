@@ -11,26 +11,16 @@ import (
 	"path/filepath"
 
 	libvirt "github.com/libvirt/libvirt-go"
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 )
 
 // VM data model
 type VM struct {
-	ID     uint    `json:"id"`
-	Name   string  `json:"name"`
-	Memory uint64  `json:"memory"`
-	State  VMState `json:"state"`
+	ID      uint   `json:"id"`
+	Name    string `json:"name"`
+	Memory  uint64 `json:"memory"`
+	Running bool   `json:"running"`
 }
-
-// VMState is the state of the vm
-type VMState int
-
-const (
-	// Running vm
-	Running VMState = iota + 1
-	// Stopped vm
-	Stopped
-)
 
 // CreateVMStruct struct for the CreateVM call
 type CreateVMStruct struct {
@@ -188,14 +178,14 @@ func ListVMs(state *globalState) []*VM {
 		id, _ := domain.GetID()
 		state, _, _ := domain.GetState()
 
-		var vmState VMState
+		var running bool
 		if state == libvirt.DOMAIN_RUNNING {
-			vmState = Running
+			running = true
 		} else {
-			vmState = Stopped
+			running = false
 		}
 
-		vms = append(vms, &VM{ID: id, Name: name, Memory: memory, State: vmState})
+		vms = append(vms, &VM{ID: id, Name: name, Memory: memory, Running: running})
 	}
 	return vms
 }
