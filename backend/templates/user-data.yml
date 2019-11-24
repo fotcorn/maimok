@@ -11,3 +11,11 @@ users:
 
 hostname: {{ .Hostname }}
 manage_etc_hosts: localhost
+
+bootcmd:
+  - sed -i 's/\/\/\t"${distro_id}:${distro_codename}-updates";/\t"${distro_id}:${distro_codename}-updates";/g' /etc/apt/apt.conf.d/50unattended-upgrades
+  - bash -c "echo >> /etc/apt/apt.conf.d/50unattended-upgrades"
+  - bash -c "echo 'Unattended-Upgrade::Remove-Unused-Dependencies \"true\";' >> /etc/apt/apt.conf.d/50unattended-upgrades"
+  - bash -c "echo 'Unattended-Upgrade::Remove-Unused-Kernel-Packages \"true\";' >> /etc/apt/apt.conf.d/50unattended-upgrades"
+  - bash -c "echo 'Unattended-Upgrade::Automatic-Reboot-Time \"04:00\";' >> /etc/apt/apt.conf.d/50unattended-upgrades"
+  - bash -c "echo 'Unattended-Upgrade::Automatic-Reboot \"true\";' >> /etc/apt/apt.conf.d/50unattended-upgrades"
