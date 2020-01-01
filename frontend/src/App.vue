@@ -1,10 +1,13 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
-</template>
+  <v-app>
+    <v-app-bar app color="indigo" dark>
+      <v-toolbar-title>Maimok</v-toolbar-title>
+    </v-app-bar>
 
-<style lang="sass" scoped>
-#app
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif
-</style>
+    <v-content>
+      <v-container class="fill-height" fluid>
+        <router-view />
+      </v-container>
+    </v-content>
+  </v-app>
+</template>
