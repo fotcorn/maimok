@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.1.2",
+    "typeface-roboto": "^0.0.75",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
