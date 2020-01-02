@@ -1,14 +1,32 @@
 <template>
-  <v-data-table :headers="headers" :items="vms" :items-per-page="100">
-    <template v-slot:item.name="{ item }">
-      <v-icon small color="success" v-if="item.running">fa-play</v-icon>
-      <v-icon small color="default" v-else>fa-pause</v-icon>
-      <span class="ml-2">{{ item.name }}</span>
-    </template>
-    <template v-slot:item.memory="{ item }">
-      {{ formatMemory(item.memory) }} GB
-    </template>
-  </v-data-table>
+  <v-card>
+    <v-card-title>
+      Virtual Machines
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="vms"
+      :search="search"
+      disable-pagination
+      hide-default-footer
+    >
+      <template v-slot:item.name="{ item }">
+        <v-icon small color="success" v-if="item.running">fa-play</v-icon>
+        <v-icon small color="default" v-else>fa-pause</v-icon>
+        <span class="ml-2">{{ item.name }}</span>
+      </template>
+      <template v-slot:item.memory="{ item }">
+        {{ formatMemory(item.memory) }} GB
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -22,6 +40,8 @@ export default class VMList extends Vue {
   ];
 
   vms = [];
+  search = "";
+
   async mounted() {
     const response = await fetch("http://localhost:7000/vms");
     this.vms = await response.json();

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="indigo" dark>
+    <v-app-bar app color="primary" dark>
       <v-toolbar-title>Maimok</v-toolbar-title>
     </v-app-bar>
 
