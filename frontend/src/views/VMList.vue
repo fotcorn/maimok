@@ -26,13 +26,19 @@
         {{ formatMemory(item.memory) }} GB
       </template>
     </v-data-table>
+    <create-vm-dialog />
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import CreateVMDialog from "../components/CreateVMDialog.vue";
 
-@Component
+@Component({
+  components: {
+    "create-vm-dialog": CreateVMDialog
+  }
+})
 export default class VMList extends Vue {
   readonly headers = [
     { text: "Name", value: "name" },
