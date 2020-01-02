@@ -12,15 +12,6 @@ func validationFailed(w http.ResponseWriter, r *http.Request, message string) {
 	return
 }
 
-// ListVMsHandler handler
-func (state *globalState) ListVMsHandler(w http.ResponseWriter, r *http.Request) {
-	list := []render.Renderer{}
-	for _, vm := range ListVMs(state) {
-		list = append(list, vm)
-	}
-	render.RenderList(w, r, list)
-}
-
 type createVMRequest struct {
 	DiskSpaceGB uint   `json:"disk_space_gb"`
 	RAMMB       uint   `json:"ram_mb"`
@@ -91,9 +82,4 @@ func (state *globalState) CreateVMHandler(w http.ResponseWriter, r *http.Request
 	} else {
 		render.Render(w, r, &createVMResponse{Status: "ok"})
 	}
-}
-
-// Render a VM
-func (rd *VM) Render(w http.ResponseWriter, r *http.Request) error {
-	return nil
 }
