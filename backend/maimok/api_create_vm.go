@@ -51,8 +51,7 @@ func (state *globalState) CreateVMHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 	if request.Image == "" {
-		validationFailed(w, r, "image field is required")
-		return
+		request.Image = state.config.Image
 	}
 	if request.IPAddress == "" {
 		validationFailed(w, r, "ip_address field is required")
