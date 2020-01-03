@@ -80,7 +80,7 @@ export default class CreateVMDialog extends Vue {
     if (!(this.$refs.form as any).validate()) {
       return;
     }
-    const response = await fetch("http://localhost:7000/api/vms", {
+    const response = await fetch("/api/vms", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

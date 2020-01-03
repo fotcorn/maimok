@@ -49,7 +49,7 @@ export default class VMList extends Vue {
   search = "";
 
   async mounted() {
-    const response = await fetch("http://localhost:7000/api/vms");
+    const response = await fetch("/api/vms");
     this.vms = await response.json();
   }
 
