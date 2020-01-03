@@ -134,6 +134,7 @@ export default class CreateVMDialog extends Vue {
     if (responseJSON.status == "ok") {
       this.statusOK = true;
       this.open = false;
+      this.$emit("created");
     } else {
       this.error = responseJSON.error;
       this.statusError = true;

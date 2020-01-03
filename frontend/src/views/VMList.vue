@@ -26,7 +26,7 @@
         {{ formatMemory(item.memory) }} GB
       </template>
     </v-data-table>
-    <create-vm-dialog />
+    <create-vm-dialog @created="load" />
   </v-card>
 </template>
 
@@ -47,8 +47,14 @@ export default class VMList extends Vue {
 
   vms = [];
   search = "";
+  interval = null;
 
   async mounted() {
+    await this.load();
+    window.setInterval(this.load, 3000);
+  }
+
+  async load() {
     const response = await fetch("/api/vms");
     this.vms = await response.json();
   }
