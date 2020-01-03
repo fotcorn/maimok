@@ -3,39 +3,52 @@ package maimok
 import (
 	"fmt"
 
-	"github.com/BurntSushi/toml"
+	"github.com/spf13/viper"
 )
 
 // Config is the structure of the config file on disk
 type Config struct {
-	LibvirtURL string `toml:"libvirt_url"`
-	Image      string `toml:"image"`
-	SSHKey     string `toml:"ssh_key"`
-	Gateway    string `toml:"gateway"`
-	Netmask    string `toml:"netmask"`
+	LibvirtURL string
+	Image      string
+	SSHKey     string
+	Gateway    string
+	Netmask    string
 }
 
-// LoadConfig load Config from file
+// LoadConfig loads configuration from file or environment variables
 func LoadConfig() (*Config, error) {
-	config := Config{}
-	md, err := toml.DecodeFile("config.toml", &config)
-	if err != nil {
+
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+	viper.SetDefault("libvirt_url", "qemu:///system")
+	viper.SetEnvPrefix("maimok")
+	viper.AutomaticEnv()
+
+	err := viper.ReadInConfig()
+	if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
 		return &Config{}, err
 	}
-	if len(md.Undecoded()) > 0 {
-		return &Config{}, fmt.Errorf("Invalid config parameter: %q", md.Undecoded())
+
+	config := Config{
+		LibvirtURL: viper.GetString("libvirt_url"),
+		Image:      viper.GetString("image"),
+		SSHKey:     viper.GetString("ssh_key"),
+		Gateway:    viper.GetString("gateway"),
+		Netmask:    viper.GetString("netmask"),
 	}
-	if !md.IsDefined("libvirt_url") {
-		config.LibvirtURL = "qemu:///system"
+
+	if config.Image == "" {
+		return &Config{}, fmt.Errorf("\"image\" config parameter is required")
 	}
-	if !md.IsDefined("image") {
-		return &Config{}, fmt.Errorf("\"image\" parameter is required")
+	if config.SSHKey == "" {
+		return &Config{}, fmt.Errorf("\"ssh_key\" config parameter is required")
 	}
-	if !md.IsDefined("gateway") {
-		return &Config{}, fmt.Errorf("\"gateway\" parameter is required")
+	if config.Gateway == "" {
+		return &Config{}, fmt.Errorf("\"gateway\" config parameter is required")
 	}
-	if !md.IsDefined("netmask") {
-		return &Config{}, fmt.Errorf("\"netmask\" parameter is required")
+	if config.Netmask == "" {
+		return &Config{}, fmt.Errorf("\"netmask\" config parameter is required")
 	}
+
 	return &config, nil
 }
