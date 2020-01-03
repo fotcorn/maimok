@@ -18,8 +18,18 @@
       hide-default-footer
     >
       <template v-slot:item.name="{ item }">
-        <v-icon small color="success" v-if="item.running">fa-play</v-icon>
-        <v-icon small color="default" v-else>fa-pause</v-icon>
+        <span class="fa-stack">
+          <i class="fas fa-desktop fa-stack-2x"></i>
+          <i
+            v-if="item.running"
+            class="fas fa-play fa-stack-1x stacked-icon success--text"
+          ></i>
+          <i
+            v-else
+            class="fas fa-pause fa-stack-1x stacked-icon grey--text text--darken-1"
+          ></i>
+        </span>
+
         <span class="ml-2">{{ item.name }}</span>
       </template>
       <template v-slot:item.memory="{ item }">
@@ -64,3 +74,9 @@ export default class VMList extends Vue {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.stacked-icon
+  font-size: 0.8em
+  line-height: 2.0em
+</style>
