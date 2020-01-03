@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  maimok:
+    image: maimok
+    volumes:
+      # to access the virtual machine host per ssh, the docker container needs
+      # an unencrypted ssh private key with access to the host.
+      - ./id_rsa:/root/.ssh/id_rsa
+    environment:
+      # libvirt url to access the libvirtd daemon
+      MAIMOK_LIBVIRT_URL: qemu+ssh://user@host/system?no_verify=1
+
+      # base cloud image used for every vm, must be inside the libvirtd image directory (by default /var/lib/libvirt/images)
+      MAIMOK_IMAGE: bionic-server-cloudimg-amd64.img
+
+      # ssh public key to be put into authorized_keys of every vm
+      MAIMOK_SSH_KEY: ssh-rsa ...
+
+      # network gateway for the created vms
+      MAIMOK_GATEWAY: 192.168.0.1
+
+      # network netmask for the created vms
+      MAIMOK_NETMASK: 255.255.255.0
+    ports:
+      - 7000:7000
