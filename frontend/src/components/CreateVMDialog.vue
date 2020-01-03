@@ -6,7 +6,7 @@
           <v-icon>fa-plus</v-icon>
         </v-btn>
       </template>
-      <v-card>
+      <v-card :loading="loading">
         <v-card-title>
           <span class="headline">Create Virtual Machine</span>
         </v-card-title>
@@ -73,6 +73,7 @@ export default class CreateVMDialog extends Vue {
   statusOK = false;
   statusError = false;
   error = "";
+  loading = false;
 
   readonly ipAddressPrefix = "192.168.0.";
 
@@ -80,6 +81,7 @@ export default class CreateVMDialog extends Vue {
     if (!(this.$refs.form as any).validate()) {
       return;
     }
+    this.loading = true;
     const response = await fetch("/api/vms", {
       method: "POST",
       headers: {
@@ -93,6 +95,7 @@ export default class CreateVMDialog extends Vue {
         ip_address: `${this.ipAddressPrefix}${this.ipAddress}`
       })
     });
+    this.loading = false;
 
     const responseJSON: any = await response.json();
 
