@@ -16,9 +16,10 @@ func GetRouter(state *globalState) chi.Router {
 	})
 	r.Use(cors.Handler)
 
-	r.Route("/vms", func(r chi.Router) {
+	r.Route("/api/vms", func(r chi.Router) {
 		r.Get("/", state.ListVMsHandler)
 		r.Post("/", state.CreateVMHandler)
 	})
+
 	return r
 }
