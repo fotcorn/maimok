@@ -1,11 +1,9 @@
 <template>
   <div>
+    <v-btn bottom right color="primary" dark fab fixed @click="show">
+      <v-icon>fa-plus</v-icon>
+    </v-btn>
     <v-dialog max-width="600px" v-model="open">
-      <template v-slot:activator="{ on }">
-        <v-btn bottom right color="primary" dark fab fixed v-on="on">
-          <v-icon>fa-plus</v-icon>
-        </v-btn>
-      </template>
       <v-card :loading="loading">
         <v-card-title>
           <span class="headline">Create Virtual Machine</span>
@@ -14,26 +12,27 @@
           <v-form ref="form">
             <v-text-field
               label="Hostname"
-              required
               v-model="hostname"
+              :rules="rules.hostname"
             ></v-text-field>
             <v-text-field
-              label="IP Address"
+              label="IP address"
               v-model="ipAddress"
               :prefix="ipAddressPrefix"
+              :rules="rules.ipAddress"
             ></v-text-field>
             <v-text-field label="Name" disabled :value="name"></v-text-field>
             <v-text-field
               label="RAM"
-              required
               v-model="ram"
               suffix="MB"
+              :rules="rules.ram"
             ></v-text-field>
             <v-text-field
               label="Disk space"
-              required
               v-model="diskSpace"
               suffix="GB"
+              :rules="rules.diskSpace"
             ></v-text-field>
           </v-form>
         </v-card-text>
@@ -64,18 +63,51 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class CreateVMDialog extends Vue {
-  open = false;
+  // form values
   ipAddress = "";
   hostname = "";
   ram = "";
   diskSpace = "";
 
+  readonly ipAddressPrefix = "192.168.0.";
+
+  // form validation
+
+  isInteger(num: string) {
+    return /^(0|[1-9]\d*)$/.test(num);
+  }
+
+  readonly rules = {
+    hostname: [(v: string) => v.length != 0 || "Hostname is required"],
+    ipAddress: [
+      (v: string) => v.length != 0 || "IP address is required",
+      (v: string) => this.isInteger(v) || "IP address is not a number"
+    ],
+    ram: [
+      (v: string) => v.length != 0 || "RAM is required",
+      (v: string) => this.isInteger(v) || "IP address is not a positive number",
+      (v: string) => parseInt(v) >= 128 || "RAM must be at least 128 MB"
+    ],
+    diskSpace: [
+      (v: string) => v.length != 0 || "Disk space is required",
+      (v: string) => this.isInteger(v) || "Disk space is not a positive number",
+      (v: string) => parseInt(v) >= 5 || "Disk space must be at least 5 GB"
+    ]
+  };
+
+  // ui state
+  open = false;
   statusOK = false;
   statusError = false;
   error = "";
   loading = false;
 
-  readonly ipAddressPrefix = "192.168.0.";
+  show() {
+    if (this.$refs.form) {
+      (this.$refs.form as any).resetValidation();
+    }
+    this.open = true;
+  }
 
   async create() {
     if (!(this.$refs.form as any).validate()) {
