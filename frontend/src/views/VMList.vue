@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="page-container">
     <v-card-title>
       Virtual Machines
       <v-spacer></v-spacer>
@@ -85,4 +85,6 @@ export default class VMList extends Vue {
 .stacked-icon
   font-size: 0.8em
   line-height: 2.0em
+.page-container
+  margin-bottom: 80px
 </style>
