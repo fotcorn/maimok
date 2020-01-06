@@ -82,7 +82,9 @@ export default class CreateVMDialog extends Vue {
     hostname: [(v: string) => v.length != 0 || "Hostname is required"],
     ipAddress: [
       (v: string) => v.length != 0 || "IP address is required",
-      (v: string) => this.isInteger(v) || "IP address is not a number"
+      (v: string) => this.isInteger(v) || "IP address is not a number",
+      (v: string) =>
+        (parseInt(v) < 255 && parseInt(v) > 0) || "Invalid IP address"
     ],
     ram: [
       (v: string) => v.length != 0 || "RAM is required",
