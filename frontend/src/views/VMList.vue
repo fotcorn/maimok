@@ -35,6 +35,9 @@
       <template v-slot:item.memory="{ item }">
         {{ formatMemory(item.memory) }} GB
       </template>
+      <template v-slot:item.action="{ item }">
+        <vm-action :running="item.running" :name="item.name" />
+      </template>
     </v-data-table>
     <create-vm-dialog @created="load" />
   </v-card>
@@ -43,16 +46,19 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import CreateVMDialog from "../components/CreateVMDialog.vue";
+import VMAction from "../components/VMAction.vue";
 
 @Component({
   components: {
-    "create-vm-dialog": CreateVMDialog
+    "create-vm-dialog": CreateVMDialog,
+    "vm-action": VMAction
   }
 })
 export default class VMList extends Vue {
   readonly headers = [
     { text: "Name", value: "name" },
-    { text: "Memory", value: "memory" }
+    { text: "Memory", value: "memory" },
+    { text: "Actions", value: "action", sortable: false, width: "150px" }
   ];
 
   vms = [];
