@@ -17,7 +17,6 @@ type Config struct {
 
 // LoadConfig loads configuration from file or environment variables
 func LoadConfig() (*Config, error) {
-
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
 	viper.SetDefault("libvirt_url", "qemu:///system")
@@ -25,8 +24,12 @@ func LoadConfig() (*Config, error) {
 	viper.AutomaticEnv()
 
 	err := viper.ReadInConfig()
-	if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
-		return &Config{}, err
+	if err != nil {
+		// if error is ConfigFileNotFoundError, ignore it and try to load the config
+		// values from other sources (e.g. environment variables)
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			return &Config{}, err
+		}
 	}
 
 	config := Config{
