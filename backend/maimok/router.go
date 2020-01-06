@@ -19,6 +19,14 @@ func GetRouter(state *globalState) chi.Router {
 		r.Post("/", state.CreateVMHandler)
 	})
 
+	r.Route("/api/vm", func(r chi.Router) {
+		r.Post("/start", state.StartVMHandler)
+		r.Post("/stop", state.StopVMHandler)
+		r.Post("/forcestop", state.ForceStopVMHandler)
+		r.Post("/restart", state.RestartVMHandler)
+		r.Post("/forcerestart", state.ForceRestartVMHandler)
+	})
+
 	// serve dist/static/ directory with js/css/image/font files
 	serveStaticFiles(r)
 

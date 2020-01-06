@@ -195,3 +195,53 @@ func ListVMs(state *globalState) []*VM {
 
 	return vms
 }
+
+// StartVM starts a virtual machine with the given name
+func StartVM(state *globalState, name string) error {
+	domain, err := state.conn.LookupDomainByName(name)
+	if err != nil {
+		return err
+	}
+	domain.Create()
+	return nil
+}
+
+// StopVM tries to gracefully stop a VM, which might fail
+func StopVM(state *globalState, name string) error {
+	domain, err := state.conn.LookupDomainByName(name)
+	if err != nil {
+		return err
+	}
+	domain.Shutdown()
+	return nil
+}
+
+// ForceStopVM forcefully stops a VM, like pressing the power button on a real PC
+func ForceStopVM(state *globalState, name string) error {
+	domain, err := state.conn.LookupDomainByName(name)
+	if err != nil {
+		return err
+	}
+	domain.Destroy()
+	return nil
+}
+
+// RestartVM tries to gracefully restart a VM, which might fail
+func RestartVM(state *globalState, name string) error {
+	domain, err := state.conn.LookupDomainByName(name)
+	if err != nil {
+		return err
+	}
+	domain.Reboot(0)
+	return nil
+}
+
+// ForceRestartVM forcefully restarts/resets a VM, like pressing the reset button on a real PC
+func ForceRestartVM(state *globalState, name string) error {
+	domain, err := state.conn.LookupDomainByName(name)
+	if err != nil {
+		return err
+	}
+	domain.Reset(0)
+	return nil
+}
