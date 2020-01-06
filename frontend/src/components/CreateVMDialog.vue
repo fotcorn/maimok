@@ -20,6 +20,7 @@
               v-model="ipAddress"
               :prefix="ipAddressPrefix"
               :rules="rules.ipAddress"
+              placeholder="123"
             ></v-text-field>
             <v-text-field label="Name" disabled :value="name"></v-text-field>
             <v-text-field
