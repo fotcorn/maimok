@@ -15,6 +15,11 @@ A web interface for virtual machines running on KVM/libvirt written in Go and Vu
 
 Tested with base images from https://cloud-images.ubuntu.com/.
 
+## Screenshots
+
+![Screentshot1](https://raw.githubusercontent.com/fotcorn/maimok/master/screenshot1.png)
+![Screentshot2](https://raw.githubusercontent.com/fotcorn/maimok/master/screenshot2.png)
+
 ## Setup
 
 - On the virtual machine host, install KVM and libvirtd.
