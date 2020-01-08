@@ -8,7 +8,7 @@ COPY ./frontend /app
 RUN set -ex && cd /app && yarn && yarn build --modern
 
 FROM alpine:3.11
-RUN apk --no-cache add libvirt openssh-client
+RUN apk --no-cache add libvirt openssh-client cdrkit
 COPY --from=backend-builder /app/backend /maimok
 COPY --from=frontend-builder /app/dist/ /dist
 COPY ./backend/templates /templates
